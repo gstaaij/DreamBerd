@@ -10,38 +10,40 @@ Tokens dbLexerMakeTokens(char* text) {
         currentToken = (Token){0};                  \
     } while (0)
     #define discardToken() currentToken = (Token){0}
+    #define parseBackslash() if (currentToken.type == TOKEN_BACKSLASH) {    \
+        discardToken();                                                     \
+        currentToken.type = TOKEN_IDENTIFIER;                               \
+        nob_da_append(&currentToken.strValue, *c);                          \
+        c++;                                                                \
+        break;                                                              \
+    }
 
     char* c = text;
     while (*c != 0) {
-        // Always add an identifier if a backslash was before this character, except with newlines
-        if (*c != '\n' && currentToken.type == TOKEN_BACKSLASH) {
-            discardToken();
-            currentToken.type = TOKEN_IDENTIFIER;
-            nob_da_append(&currentToken.strValue, *c);
-            c++;
-            continue;
-        }
-
         switch (*c) {
             case '\\': {
+                parseBackslash();
                 newToken();
                 currentToken.type = TOKEN_BACKSLASH;
                 nob_da_append(&currentToken.strValue, *c);
                 c++;
             } break;
             case ' ': case '(': case ')': {
+                parseBackslash();
                 newToken();
                 currentToken.type = TOKEN_WHITESPACE;
                 nob_da_append(&currentToken.strValue, *c);
                 c++;
             } break;
             case '!': case '?': {
+                parseBackslash();
                 newToken();
                 currentToken.type = TOKEN_EOL;
                 nob_da_append(&currentToken.strValue, *c);
                 c++;
             } break;
             case '\'': case '"': {
+                parseBackslash();
                 newToken();
                 currentToken.type = TOKEN_QUOTE;
                 nob_da_append(&currentToken.strValue, *c);
@@ -65,11 +67,46 @@ Tokens dbLexerMakeTokens(char* text) {
                 c++;
             } break;
             default: {
+                char escapedChar = *c;
+                // If a backslash was before this, escape the character accordinly
+                if (currentToken.type == TOKEN_BACKSLASH) {
+                    discardToken();
+                    switch (*c) {
+                        case 'a': {
+                            escapedChar = '\a';
+                        } break;
+                        case 'b': {
+                            escapedChar = '\b';
+                        } break;
+                        case 'f': {
+                            escapedChar = '\f';
+                        } break;
+                        case 'n': {
+                            escapedChar = '\n';
+                        } break;
+                        case 'r': {
+                            escapedChar = '\r';
+                        } break;
+                        case 't': {
+                            escapedChar = '\t';
+                        } break;
+                        case 'v': {
+                            escapedChar = '\v';
+                        } break;
+                        // TODO: implement \nnn, \xhh, \uhhhh and \Uhhhhhhhh
+                        default: {
+                            escapedChar = *c;
+                        } break;
+                    }
+                }
+
+                // If the current token is an identifier, we can just add to the current token,
+                // otherwise, we have to start a new token
                 if (currentToken.type != TOKEN_IDENTIFIER)
                     newToken();
 
                 currentToken.type = TOKEN_IDENTIFIER;
-                nob_da_append(&currentToken.strValue, *c);
+                nob_da_append(&currentToken.strValue, escapedChar);
                 c++;
             } break;
         }
