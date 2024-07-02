@@ -9,6 +9,14 @@ This is an interpreter for the perfect programming language, written in C.
 - 2800 lines of Java code I wrote a long time ago by following [a Python programming language tutorial by CodePulse](https://www.youtube.com/playlist?list=PLZQftyCk7_SdoVexSmwy_tBgs7P0b97yD)
 - [The DreamBerd interpreter written in Python](https://github.com/vivaansinghvi07/dreamberd-interpreter) by [vivaansinghvi07](https://github.com/vivaansinghvi07). I will probably use it at some point to see if my implementation is consistent with theirs, but I don't plan on looking at their code unless absolutely necessary.
 
+## Building
+
+```console
+$ gcc -o nob nob.c
+$ ./nob
+$ ./build/utf8test
+```
+
 ## Implementation differences
 
 Things that won't be exactly as the documentation states or are not mentioned in the documentation:
