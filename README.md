@@ -11,6 +11,12 @@ This is an interpreter for the perfect programming language, written in C.
 
 ## Building
 
+If you are on Windows, you need [MinGW64-w64](https://github.com/niXman/mingw-builds-binaries/releases) before you can build the program.
+
+If you're not on Windows, but you want to compile for Windows, you will also need to install MinGW-w64 through your package manager of choice.
+
+Otherwise, remove the line `#define BUILD_FOR_WINDOWS` in `nob.c`.
+
 ```console
 $ gcc -o nob nob.c
 $ ./nob

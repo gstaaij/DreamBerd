@@ -1,5 +1,5 @@
 #define NOB_IMPLEMENTATION
-#include "nob.h"
+#include "dreamberd/nob.h"
 
 int main() {
     Nob_String_Builder sb = {0};
