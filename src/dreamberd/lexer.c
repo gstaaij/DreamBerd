@@ -9,10 +9,26 @@ Tokens dbLexerMakeTokens(char* text) {
             nob_da_append(&tokens, currentToken);   \
         currentToken = (Token){0};                  \
     } while (0)
+    #define discardToken() currentToken = (Token){0}
 
     char* c = text;
     while (*c != 0) {
+        // Always add an identifier if a backslash was before this character, except with newlines
+        if (*c != '\n' && currentToken.type == TOKEN_BACKSLASH) {
+            discardToken();
+            currentToken.type = TOKEN_IDENTIFIER;
+            nob_da_append(&currentToken.strValue, *c);
+            c++;
+            continue;
+        }
+
         switch (*c) {
+            case '\\': {
+                newToken();
+                currentToken.type = TOKEN_BACKSLASH;
+                nob_da_append(&currentToken.strValue, *c);
+                c++;
+            } break;
             case ' ': case '(': case ')': {
                 newToken();
                 currentToken.type = TOKEN_WHITESPACE;
@@ -35,6 +51,12 @@ Tokens dbLexerMakeTokens(char* text) {
                 }
             } break;
             case '\n': {
+                // Ignore the newline if a backslash was found before
+                if (currentToken.type == TOKEN_BACKSLASH) {
+                    discardToken();
+                    c++;
+                    break;
+                }
                 newToken();
                 currentToken.type = TOKEN_NEWLINE;
                 nob_da_append(&currentToken.strValue, *c);
@@ -52,6 +74,7 @@ Tokens dbLexerMakeTokens(char* text) {
     }
     newToken();
     #undef newToken
+    #undef discardToken
 
     return tokens;
 }
@@ -61,6 +84,7 @@ static const char* dbLexerTokenNames[] = {
     [TOKEN_IDENTIFIER] = "TOKEN_IDENTIFIER",
     [TOKEN_QUOTE] = "TOKEN_QUOTE",
     [TOKEN_WHITESPACE] = "TOKEN_WHITESPACE",
+    [TOKEN_BACKSLASH] = "TOKEN_BACKSLASH",
     [TOKEN_EOL] = "TOKEN_EOL",
     [TOKEN_NEWLINE] = "TOKEN_NEWLINE",
 };
