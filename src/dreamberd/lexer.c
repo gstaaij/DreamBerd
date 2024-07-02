@@ -32,7 +32,7 @@ Tokens dbLexerMakeTokens(char* text) {
             case ' ': case '(': case ')': {
                 newToken();
                 currentToken.type = TOKEN_WHITESPACE;
-                nob_da_append(&currentToken.strValue, ' ');
+                nob_da_append(&currentToken.strValue, *c);
                 c++;
             } break;
             case '!': case '?': {
