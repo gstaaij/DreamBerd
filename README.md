@@ -74,9 +74,9 @@ Things I probably *won't* be implementing include:
 - [ ] `when`
 - [ ] `previous`
 - [ ] `delete`
-- [x] Implement variable quotes for strings.
+- [x] Any number of quotes for strings.
 - [ ] Zero-quote strings and AEMI
-- [ ] Equality
+- [ ] Equality (`==`, `===`, `====` and `=`)
 - [ ] `Date.now()`
 - [x] Unicode support (including 1️⃣ hopefully)
 - [x] Loops
