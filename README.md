@@ -15,7 +15,7 @@ If you are on Windows, you need [MinGW64-w64](https://github.com/niXman/mingw-bu
 
 If you're not on Windows, but you want to compile for Windows, you will also need to install MinGW-w64 through your package manager of choice.
 
-Otherwise, remove the line `#define BUILD_FOR_WINDOWS` in `nob.c`.
+Otherwise, use the command line option `--nowin` when running `nob`: `./nob --nowin`
 
 ```console
 $ gcc -o nob nob.c
