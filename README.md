@@ -75,7 +75,7 @@ Things I probably *won't* be implementing include:
 - [ ] `previous`
 - [ ] `delete`
 - [x] Any number of quotes for strings.
-- [ ] Zero-quote strings and AEMI
+- [ ] Unquoted strings and AEMI
 - [ ] Equality (`==`, `===`, `====` and `=`)
 - [ ] `Date.now()`
 - [x] Unicode support (including 1️⃣ hopefully)

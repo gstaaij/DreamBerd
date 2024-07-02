@@ -9,6 +9,8 @@ More about how "rewrite rules" work: https://github.com/TodePond/DreamBerd/issue
 
 - [A comment by TodePond that adresses how to interpret zero-quote strings](https://github.com/TodePond/DreamBerd/issues/192#issuecomment-1604498219).
 
+Significant whitespace (https://github.com/TodePond/DreamBerd/discussions/413#discussioncomment-7127049) (the rest of this discussion is also very interesting)
+
 Possible Regular Expression types:
 ```
 RegEx
