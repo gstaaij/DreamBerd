@@ -6,9 +6,11 @@ typedef enum {
     TOKEN_NONE,
     TOKEN_IDENTIFIER,
     TOKEN_QUOTE,
+    TOKEN_STRING,
     TOKEN_WHITESPACE,
     TOKEN_BACKSLASH,
     TOKEN_EOL,
+    TOKEN_EOF,
     TOKEN_NEWLINE,
 } TokenType;
 
@@ -26,5 +28,5 @@ typedef struct {
     size_t capacity;
 } Tokens;
 
-Tokens dbLexerMakeTokens(char* text);
+Tokens dbLexer(char* text);
 void dbLexerLogTokens(Nob_Log_Level level, Tokens tokens);

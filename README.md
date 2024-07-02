@@ -41,6 +41,7 @@ Things that won't be exactly as the documentation states or are not mentioned in
 - String interpolation will work for all documented currencies no matter where you are, so if you're visiting the US, but your locale is still set to the UK, you can use `$`!
 - Euros will (also) be in front of the curly brackets (e.g. `€{name}`), because where I live, that's the local typographical norm (and, in English writing, [the official norm](https://en.wikipedia.org/wiki/Euro_sign#Use)). I'll probably implement `{name}€` as well.
 - Booleans won't actually be stored as 1.5 bits, because that's quite impossible.
+- I have interpreted "Unicode" as UTF-8. I won't support anything other than UTF-8 or ASCII.
 
 Things I *may* implement if I so desire:
 
@@ -61,7 +62,7 @@ Things I probably *won't* be implementing include:
 
 - [ ] Implement basic language features (arithmetic, basic syntax, print, strings, etc.). This means none of the crazy features no other language has yet.
 - [ ] Transition from parentheses to significant whitespace
-- [ ] Strings
+- [x] Strings
 - [ ] Booleans
 - [ ] Question marks
 - [ ] Arrays
@@ -73,11 +74,11 @@ Things I probably *won't* be implementing include:
 - [ ] `when`
 - [ ] `previous`
 - [ ] `delete`
-- [ ] Implement variable quotes for strings.
+- [x] Implement variable quotes for strings.
 - [ ] Zero-quote strings and AEMI
 - [ ] Equality
 - [ ] `Date.now()`
-- [ ] Unicode support (including 1️⃣ hopefully)
+- [x] Unicode support (including 1️⃣ hopefully)
 - [x] Loops
 - [ ] Overloading variables
 - [ ] `reverse`

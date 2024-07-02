@@ -1,8 +1,10 @@
 #define NOB_IMPLEMENTATION
 #include "src/dreamberd/nob.h"
 
-void cFlags(Nob_Cmd* cmd) {
+void cFlags(Nob_Cmd* cmd, bool debug) {
     nob_cmd_append(cmd, "-Wall", "-Wextra", "-ggdb");
+    if (debug)
+        nob_cmd_append(cmd, "-DDEBUG");
 }
 
 void cFiles(Nob_Cmd* cmd) {
@@ -17,19 +19,19 @@ void cFiles(Nob_Cmd* cmd) {
     }
 }
 
-bool buildWindows(Nob_Cmd* cmd) {
+bool buildWindows(Nob_Cmd* cmd, bool debug) {
     cmd->count = 0;
     nob_cmd_append(cmd, "x86_64-w64-mingw32-gcc");
-    cFlags(cmd);
+    cFlags(cmd, debug);
     nob_cmd_append(cmd, "-o", "build/dreamberd");
     cFiles(cmd);
     return nob_cmd_run_sync(*cmd);
 }
 
-bool buildLinux(Nob_Cmd* cmd) {
+bool buildLinux(Nob_Cmd* cmd, bool debug) {
     cmd->count = 0;
     nob_cmd_append(cmd, "gcc");
-    cFlags(cmd);
+    cFlags(cmd, debug);
     nob_cmd_append(cmd, "-o", "build/dreamberd");
     cFiles(cmd);
     return nob_cmd_run_sync(*cmd);
@@ -39,12 +41,14 @@ void logUsage(Nob_Log_Level level, const char* program) {
     nob_log(level, "Usage: %s [options]", program);
     nob_log(level, "Available options:");
     nob_log(level, "    --help      Display this message");
+    nob_log(level, "    --debug     Build with debug messages included");
     nob_log(level, "    --nowin     Don't build for Windows");
 }
 
 int main(int argc, char** argv) {
     NOB_GO_REBUILD_URSELF(argc, argv);
 
+    bool debug = false;
     bool nowin = false;
 
     const char* program = nob_shift_args(&argc, &argv);
@@ -53,6 +57,8 @@ int main(int argc, char** argv) {
         if (strcmp(option, "--help") == 0) {
             logUsage(NOB_INFO, program);
             return 0;
+        } else if (strcmp(option, "--debug") == 0) {
+            debug = true;
         } else if (strcmp(option, "--nowin") == 0) {
             nowin = true;
         } else {
@@ -65,9 +71,9 @@ int main(int argc, char** argv) {
     nob_mkdir_if_not_exists("./build");
     Nob_Cmd cmd = {0};
 
-    if (!nowin) buildWindows(&cmd);
+    if (!nowin) buildWindows(&cmd, debug);
 #ifndef _WIN32
-    buildLinux(&cmd);
+    buildLinux(&cmd, debug);
 #endif
 
 // Enable if you want the UTF-8 test program

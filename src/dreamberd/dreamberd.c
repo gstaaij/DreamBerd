@@ -4,7 +4,7 @@
 #include "nob.h"
 
 bool dbRunProgram(char* text) {
-    Tokens tokens = dbLexerMakeTokens(text);
+    Tokens tokens = dbLexer(text);
     dbLexerLogTokens(NOB_INFO, tokens);
     return true;
 }
