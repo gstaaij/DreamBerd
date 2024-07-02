@@ -9,6 +9,7 @@ void cFiles(Nob_Cmd* cmd) {
     static const char* files[] = {
         "src/main.c",
         "src/dreamberd/dreamberd.c",
+        "src/dreamberd/lexer.c",
     };
     
     for (size_t i = 0; i < NOB_ARRAY_LEN(files); ++i) {

@@ -1,8 +1,10 @@
 #include "dreamberd.h"
+#include "lexer.h"
+
 #include "nob.h"
 
-bool dbRunProgram(const char* text) {
-    (void) text;
-    nob_log(NOB_ERROR, "Hello, World!");
-    return false;
+bool dbRunProgram(char* text) {
+    Tokens tokens = dbLexerMakeTokens(text);
+    dbLexerLogTokens(NOB_INFO, tokens);
+    return true;
 }
